@@ -7,6 +7,45 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// UserVirtualMachineImageSpec defines the desired state of VirtualMachineImage
+type UserVirtualMachineImageSpec struct {
+	// Type describes the type of the VirtualMachineImage. Currently, the only supported image is "OVF"
+	Type string `json:"type"`
+
+	// ImageSourceType describes the type of content source of the VirtualMachineImage.  The only Content Source
+	// supported currently is the vSphere Content Library.
+	// +optional
+	ImageSourceType string `json:"imageSourceType,omitempty"`
+
+	// ImageID is a unique identifier exposed by the provider of this VirtualMachineImage.
+	ImageID string `json:"imageID"`
+
+	// ProviderRef is a reference to a content provider object that describes a provider.
+	ProviderRef ContentProviderReference `json:"providerRef"`
+
+	// ProductInfo describes the attributes of the VirtualMachineImage relating to the product contained in the
+	// image.
+	// +optional
+	ProductInfo VirtualMachineImageProductInfo `json:"productInfo,omitempty"`
+
+	// OSInfo describes the attributes of the VirtualMachineImage relating to the Operating System contained in the
+	// image.
+	// +optional
+	OSInfo VirtualMachineImageOSInfo `json:"osInfo,omitempty"`
+
+	// OVFEnv describes the user configurable customization parameters of the VirtualMachineImage.
+	// +optional
+	OVFEnv map[string]OvfProperty `json:"ovfEnv,omitempty"`
+
+	// HardwareVersion describes the virtual hardware version of the image
+	// +optional
+	HardwareVersion int32 `json:"hwVersion,omitempty"`
+
+	// AnnotationData includes the annotation data
+	// +optional
+	AnnotationData string `json:"annotationData"`
+}
+
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:scope=Namespaced,shortName=uservmimage
 // +kubebuilder:storageversion
